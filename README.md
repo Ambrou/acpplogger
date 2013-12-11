@@ -1,4 +1,4 @@
 ACPPLogger
 ==========
 
-Projet Ambroise CPP Logger plugin pour Jenkins
+Ambroise CPP Logger plugin project for Jenkins
