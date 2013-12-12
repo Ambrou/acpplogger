@@ -1,4 +1,0 @@
-ACPPLogger 
-==========
-
-Resources are here

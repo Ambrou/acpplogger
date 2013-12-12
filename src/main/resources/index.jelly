@@ -1,0 +1,13 @@
+<!--
+  This view is used to render the installed plugins page.
+-->
+<div>
+  Ce plugin permet d'afficher et d'analyser les résultats de la couverture de code analysé par Insure++, directement dans notre intégration continue, de manière lisible et intuitive. Les fonctionnalités prévues sont :
+	<ul>
+		<li>Affichage du résultat de la couverture de test intuitive</li>
+		<li>Affichage des résultats des tests (OK ou KO)</li>
+		<li>Affichage et analyse de plusieurs fichiers à la fois</li>
+		<li>Synthèse sous forme de tableau dans l'intégration continue directement</li>
+		<li>Etc ...</li>
+	</ul>
+</div>
