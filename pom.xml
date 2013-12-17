@@ -6,7 +6,8 @@
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
-		<version>1.543</version><!-- which version of Jenkins is this plugin built against? -->
+		<version>1.544</version><!-- which version of Jenkins is this plugin built 
+			against? -->
 	</parent>
 
 	<artifactId>acpplogger</artifactId>
@@ -63,7 +64,10 @@
 			<plugin>
 				<groupId>org.jenkins-ci.tools</groupId>
 				<artifactId>maven-hpi-plugin</artifactId>
-				</plugin>
+				<configuration>
+					<disabledTestInjection>true</disabledTestInjection>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
