@@ -1,0 +1,16 @@
+/**
+ * 
+ */
+package org.labs.studioprive.acpplogger;
+
+/**
+ * @author kdelfour
+ * 
+ */
+public class AcppLoggerProcessor {
+
+	public static void performParseLog() {
+		// TODO Auto-generated method stub
+	}
+
+}
