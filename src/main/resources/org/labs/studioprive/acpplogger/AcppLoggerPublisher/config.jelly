@@ -9,6 +9,6 @@
     When submitted, it will be passed to the corresponding constructor parameter.
   -->
   <f:entry title="FileToParse" field="fileToParse">
-    <f:textbox default="file.coverage"/>
+    <f:textbox default="file.coverage" description="Set the file to parse"/>
   </f:entry>
 </j:jelly>

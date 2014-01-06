@@ -60,6 +60,7 @@ public class AcppLoggerPublisher extends Recorder implements DryRun,
 	public boolean performDryRun(AbstractBuild<?, ?> build, Launcher launcher,
 			BuildListener listener) throws InterruptedException, IOException {
 		try {
+			listener.getLogger().println("PUBLISH: we will parse this file " + fileToParse);
 			AcppLoggerProcessor.performParseLog(getFileToParse());
 		} catch (Throwable t) {
 			listener.getLogger()
@@ -73,8 +74,19 @@ public class AcppLoggerPublisher extends Recorder implements DryRun,
 	}
 	
 	@Override
-    public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) {
-		AcppLoggerProcessor.performParseLog(getFileToParse());
+    public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
+		try {
+			listener.getLogger().println("PUBLISH: we will parse this file " + fileToParse);
+			AcppLoggerProcessor.performParseLog(getFileToParse());
+		} catch (Throwable t) {
+			listener.getLogger()
+					.println(
+							"[ERROR] - During parsing this file " + getFileToParse() + ".There is an error: "
+									+ t.getCause().getMessage());
+		}
+		// Always exit on success (returned code and status)
+		build.setResult(Result.SUCCESS);
+		return true;
 	}
 	
 	
