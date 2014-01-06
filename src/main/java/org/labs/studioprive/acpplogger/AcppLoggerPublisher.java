@@ -21,6 +21,21 @@ import org.jenkinsci.lib.dryrun.DryRun;
  */
 public class AcppLoggerPublisher extends Recorder implements DryRun,
 		Serializable {
+	
+	private final String fileToParse;
+	
+	// Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
+    @DataBoundConstructor
+    public AcppLoggerPublisher(String fileToParse) {
+        this.fileToParse = fileToParse;
+    }
+    
+    /**
+     * We'll use this from the <tt>config.jelly</tt>.
+     */
+    public String getFileToParse() {
+    	return fileToParse;
+    }
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,7 +60,7 @@ public class AcppLoggerPublisher extends Recorder implements DryRun,
 	public boolean performDryRun(AbstractBuild<?, ?> build, Launcher launcher,
 			BuildListener listener) throws InterruptedException, IOException {
 		try {
-			AcppLoggerProcessor.performParseLog();
+			AcppLoggerProcessor.performParseLog(getFileToParse());
 		} catch (Throwable t) {
 			listener.getLogger()
 					.println(
@@ -56,4 +71,11 @@ public class AcppLoggerPublisher extends Recorder implements DryRun,
 		build.setResult(Result.SUCCESS);
 		return true;
 	}
+	
+	@Override
+    public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) {
+		AcppLoggerProcessor.performParseLog(getFileToParse());
+	}
+	
+	
 }
