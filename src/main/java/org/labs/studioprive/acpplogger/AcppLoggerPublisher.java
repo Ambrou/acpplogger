@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import org.jenkinsci.lib.dryrun.DryRun;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  * @author kdelfour
