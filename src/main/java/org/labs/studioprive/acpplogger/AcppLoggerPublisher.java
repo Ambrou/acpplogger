@@ -23,6 +23,8 @@ import org.kohsuke.stapler.DataBoundConstructor;
 public class AcppLoggerPublisher extends Recorder implements DryRun,
 		Serializable {
 	
+	public static String DISPLAY_NAME = "A cpp Logger for insure++;  
+	
 	private final String fileToParse;
 	
 	// Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
@@ -88,6 +90,20 @@ public class AcppLoggerPublisher extends Recorder implements DryRun,
 		// Always exit on success (returned code and status)
 		build.setResult(Result.SUCCESS);
 		return true;
+	}
+	
+	@Extension
+	public static final class DescriptorImpl extends BuildStepDescriptor<publisher> { 
+		
+		@Override  
+		public String getDisplayName() {  
+		    return "Publish " + AcppLoggerPublisher.DISPLAY_NAME;  
+		} 
+		
+		@Override  
+		public boolean isApplicable(Class arg0) {  
+		    return true;  
+		}
 	}
 	
 	
