@@ -1,0 +1,12 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:my="/org/labs/studioprive/acpplogger/tags">
+  <l:layout xmlns:myplugin="/org/labs/studioprive/acpplogger/tags" norefresh="true" css="/plugin/acpplogger/css/style.css">
+    <st:include it="${it.build}" page="sidepanel.jelly" />
+    <l:main-panel>
+      <h2>${%CodeCover Coverage Report}</h2>
+      <myplugin:floatingTrendGraph/>
+      
+      <h3>${%Overall Coverage Summary}</h3>
+      <myplugin:summaryTable title="Temp"/>
+    </l:main-panel>
+  </l:layout>
+</j:jelly>
