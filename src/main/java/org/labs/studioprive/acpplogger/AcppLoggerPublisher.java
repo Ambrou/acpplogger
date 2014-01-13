@@ -117,7 +117,7 @@ public class AcppLoggerPublisher extends Recorder implements DryRun,
 		saveAcppLoggerReports(acppLoggerFolder, reports);
 		logger.println("AcppLogger: stored " + reports.length + " report files in the build folder: "+ acppLoggerFolder);
 		
-		final AcppLoggerBuildAction action = new AcppLoggerBuildAction(build);
+		final AcppLoggerBuildAction action = new AcppLoggerBuildAction(build, acppLoggerProcessor.getResult());
 		logger.println("AcppLogger: " + action.getBuildHealth().getDescription());
 		
 		build.getActions().add(action);

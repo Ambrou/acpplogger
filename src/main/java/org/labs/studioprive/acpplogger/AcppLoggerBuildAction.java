@@ -7,6 +7,7 @@ import hudson.model.HealthReportingAction;
 import hudson.model.Result;
 import hudson.model.AbstractBuild;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.kohsuke.stapler.StaplerProxy;
@@ -19,9 +20,11 @@ public final class AcppLoggerBuildAction extends AcppLoggerObject<AcppLoggerBuil
 	public final AbstractBuild<?,?> owner;
 	
 	private transient WeakReference<AcppLoggerReport> report;
+	private List<AcppLoggerContainer> mListNameFile;
 	
-	public AcppLoggerBuildAction(AbstractBuild<?,?> owner){
+	public AcppLoggerBuildAction(AbstractBuild<?,?> owner, List<AcppLoggerContainer>listNameFile){
 		this.owner = owner;
+		this.mListNameFile = listNameFile;
 	}
 	@Override
 	public String getDisplayName() {
@@ -46,6 +49,10 @@ public final class AcppLoggerBuildAction extends AcppLoggerObject<AcppLoggerBuil
 	public Object getTarget() {
         return getResult();
     }
+	
+	public List<AcppLoggerContainer> getResultList(){
+		return mListNameFile;
+	}
 
     @Override
 	 public AbstractBuild<?,?> getBuild() {

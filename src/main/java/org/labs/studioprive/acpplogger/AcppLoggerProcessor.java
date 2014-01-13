@@ -28,32 +28,37 @@ public class AcppLoggerProcessor {
 
 	private final String strFileToParse;
 	
-	private List<String> mListNameFile;
+	private List<AcppLoggerContainer> mListNameFile;
 	
 	public AcppLoggerProcessor(String strFileToParse)
 	{
 		this.strFileToParse = strFileToParse;
-		mListNameFile = new ArrayList<String>();	
+		mListNameFile = new ArrayList<AcppLoggerContainer>();	
 	}
 	
 	
 	public boolean performParseLog(AbstractBuild<?, ?> build, BuildListener listener) {
 		
 		final AcppLoggerLog acppLoggerLog = getAcppLoggerLogObject(listener);
-		FileWriter writer = null;
+		//FileWriter writer = null;
 		BufferedReader buff = null;
 		
 		try{
 			acppLoggerLog.infoConsoleLogger("start parsing file");
-			writer = new FileWriter(build.getWorkspace() + "\\ocR.html", true);
+			//writer = new FileWriter(build.getWorkspace() + "\\ocR.html", true);
 			buff = new BufferedReader(new FileReader("C:\\Ambroise\\developpement\\Eclipse\\ocR.coverage"));
 			//buff = new BufferedReader(new FileReader(strFileToParse));
 			String line;
 			//accpLoggerLog.infoConsoleLogger("Read file");
 			acppLoggerLog.infoConsoleLogger("Write file" + build.getWorkspace() + "\\ocR.html");
 			while ((line = buff.readLine()) != null) {
-				writer.write(line,0,line.length());
-				writer.write("\n", 0, 1);
+				//writer.write(line,0,line.length());
+				//writer.write("\n", 0, 1);
+				if(line.startsWith("FILE ") == true){
+					String [] strTemp = line.split(" ");
+					AcppLoggerContainer acppLoggerContainer = new AcppLoggerContainer(strTemp[1], strTemp[2]);
+					mListNameFile.add(acppLoggerContainer);
+				}
 			}
 		}
 		catch (IOException ioe) {
@@ -65,9 +70,9 @@ public class AcppLoggerProcessor {
 				if(buff != null) {
 					buff.close();
 				}
-				if(writer != null){
-					writer.close();
-				} 
+//				if(writer != null){
+//					writer.close();
+//				} 
 			}
 			catch (IOException ioe) {
 				acppLoggerLog.errorConsoleLogger(ioe.toString());
@@ -87,8 +92,8 @@ public class AcppLoggerProcessor {
     }
 
 
-	public String[] getResult() {
-		return mListNameFile.toArray(new String[mListNameFile.size()]);
+	public List<AcppLoggerContainer> getResult() {
+		return mListNameFile;
 	}
 
 }

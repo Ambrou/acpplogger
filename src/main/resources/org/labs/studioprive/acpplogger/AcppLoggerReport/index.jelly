@@ -3,10 +3,27 @@
     <st:include it="${it.build}" page="sidepanel.jelly" />
     <l:main-panel>
       <h2>${%CodeCover Coverage Report}</h2>
-      <myplugin:floatingTrendGraph/>
       
       <h3>${%Overall Coverage Summary}</h3>
-      <myplugin:summaryTable title="Temp"/>
+      <table class="pane sortable" id="files">
+        <tr>
+            <td class="pane-header" style="width:80%">Filename</td>
+            <td class="pane-header" style="width:20%">Percent</td>
+        </tr>
+        <tbody>
+          <j:forEach var="elt" items="${it.ListNameFile}">
+            
+            <tr>
+              <td class="pane">
+                <a href="${elt.getFile()}">${elt.getFile()}</a>
+              </td>
+              <td class="pane">
+                ${elt.getPercent()}
+              </td>
+            </tr>
+          </j:forEach>
+        </tbody>
+      </table>
     </l:main-panel>
   </l:layout>
 </j:jelly>
