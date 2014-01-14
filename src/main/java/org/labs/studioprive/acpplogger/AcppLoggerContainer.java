@@ -1,5 +1,7 @@
 package org.labs.studioprive.acpplogger;
 
+import java.text.DecimalFormat;
+
 public class AcppLoggerContainer {
 	
 	public AcppLoggerContainer(String strFile, String strPercent){

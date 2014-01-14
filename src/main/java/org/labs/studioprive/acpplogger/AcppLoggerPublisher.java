@@ -102,7 +102,7 @@ public class AcppLoggerPublisher extends Recorder implements DryRun,
 		AcppLoggerProcessor acppLoggerProcessor = new AcppLoggerProcessor(getFileToParse());
 		acppLoggerProcessor.performParseLog(build, listener);
 		logger.println(build.getWorkspace());
-		reports = locateCoverageReports(build.getWorkspace(), "ocR.html");
+		reports = locateCoverageReports(build.getWorkspace(), "");
 		if (reports.length == 0) {
 			logger.println("AcppLogger: no coverage files found in workspace. Was any report generated?");
             build.setResult(Result.FAILURE);
@@ -149,10 +149,11 @@ public class AcppLoggerPublisher extends Recorder implements DryRun,
         ArrayList<FilePath> files = new ArrayList<FilePath>();
 		String parts[] = includes.split("\\s*[;:,]+\\s*");
 		for (String path : parts) {
+			System.out.println("Search in " + workspace.child(path));
 			FilePath src = workspace.child(path);
 			if (src.exists()) {
 				if (src.isDirectory()) {
-					files.addAll(Arrays.asList(src.list("**/coverage*.html")));
+					files.addAll(Arrays.asList(src.list("**/*.html")));
 				} else {
 					files.add(src);
 				}
@@ -171,9 +172,9 @@ public class AcppLoggerPublisher extends Recorder implements DryRun,
     protected static void saveAcppLoggerReports(FilePath folder, FilePath[] files) throws IOException, InterruptedException {
 		folder.mkdirs();
 		for (int i = 0; i < files.length; i++) {
-			String name = "coverage" + (i > 0 ? i : "") + ".html";
+			//String name = "coverage" + (i > 0 ? i : "") + ".html";
 			FilePath src = files[i];
-			FilePath dst = folder.child(name);
+			FilePath dst = folder.child(files[i].getName());
 			src.copyTo(dst);
 		}
 	}

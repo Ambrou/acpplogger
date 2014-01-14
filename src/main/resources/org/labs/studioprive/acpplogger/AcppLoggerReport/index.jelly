@@ -3,7 +3,13 @@
     <st:include it="${it.build}" page="sidepanel.jelly" />
     <l:main-panel>
       <h2>${%CodeCover Coverage Report}</h2>
-      
+      <table class="pane" id="files">
+        <tr>
+          <td class="pane" style="width:80%">Covert total</td>
+          <td class="pane" style="width:20%">${it.getPercentTotal()}</td>
+        </tr>
+        
+      </table>
       <h3>${%Overall Coverage Summary}</h3>
       <table class="pane sortable" id="files">
         <tr>
@@ -15,7 +21,7 @@
             
             <tr>
               <td class="pane">
-                <a href="${elt.getFile()}">${elt.getFile()}</a>
+                <a href="${elt.getFile()}.html">${elt.getFile()}</a>
               </td>
               <td class="pane">
                 ${elt.getPercent()}

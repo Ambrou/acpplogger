@@ -40,24 +40,51 @@ public class AcppLoggerProcessor {
 	public boolean performParseLog(AbstractBuild<?, ?> build, BuildListener listener) {
 		
 		final AcppLoggerLog acppLoggerLog = getAcppLoggerLogObject(listener);
-		//FileWriter writer = null;
+		FileWriter writer = null;
 		BufferedReader buff = null;
+		String strCoverted = "";
 		
 		try{
+			int iLine = 0;
 			acppLoggerLog.infoConsoleLogger("start parsing file");
 			//writer = new FileWriter(build.getWorkspace() + "\\ocR.html", true);
 			buff = new BufferedReader(new FileReader("C:\\Ambroise\\developpement\\Eclipse\\ocR.coverage"));
 			//buff = new BufferedReader(new FileReader(strFileToParse));
 			String line;
 			//accpLoggerLog.infoConsoleLogger("Read file");
-			acppLoggerLog.infoConsoleLogger("Write file" + build.getWorkspace() + "\\ocR.html");
+			//acppLoggerLog.infoConsoleLogger("Write file" + build.getWorkspace() + "\\ocR.html");
 			while ((line = buff.readLine()) != null) {
-				//writer.write(line,0,line.length());
-				//writer.write("\n", 0, 1);
 				if(line.startsWith("FILE ") == true){
+					if(writer != null){
+						writer.write("</table>");
+						writer.close();
+						iLine = 0;
+						strCoverted = "";
+					}
 					String [] strTemp = line.split(" ");
 					AcppLoggerContainer acppLoggerContainer = new AcppLoggerContainer(strTemp[1], strTemp[2]);
 					mListNameFile.add(acppLoggerContainer);
+					writer = new FileWriter(build.getWorkspace() + "\\" + strTemp[1] + ".html", true);
+					acppLoggerLog.infoConsoleLogger("Write file" + build.getWorkspace() + "\\" + strTemp[1] + ".html");
+					line = buff.readLine();
+					line = buff.readLine();
+					writer.write("<table>");
+				}
+				if(writer != null){
+					writer.write("<tr>\n");
+					writer.write("<td>" + Integer.toString(iLine) + "</td>");
+					// Coverted
+					if(line.contains(". ->") == true){
+						strCoverted = "Coverted";
+					}
+					// Not Coverted
+					else if(line.contains("! ->") == true){
+						strCoverted = "Not coverted";
+					}
+					writer.write("<td>"  + strCoverted + "</td>\n");
+					writer.write("<td>"  + line + "</td>\n");
+					writer.write("</tr>\n");
+					iLine++;
 				}
 			}
 		}
@@ -70,9 +97,9 @@ public class AcppLoggerProcessor {
 				if(buff != null) {
 					buff.close();
 				}
-//				if(writer != null){
-//					writer.close();
-//				} 
+				if(writer != null){
+					writer.close();
+				} 
 			}
 			catch (IOException ioe) {
 				acppLoggerLog.errorConsoleLogger(ioe.toString());

@@ -17,6 +17,7 @@ public final class AcppLoggerReport extends AcppLoggerObject<AcppLoggerReport> {
 	private final AcppLoggerBuildAction action;
 	
 	private String name;
+	private Integer PercentTotal;
 	private List<AcppLoggerContainer> mListNameFile;
 	
 	public List<AcppLoggerContainer> getListNameFile(){
@@ -26,14 +27,18 @@ public final class AcppLoggerReport extends AcppLoggerObject<AcppLoggerReport> {
 	
 	public AcppLoggerReport(AcppLoggerBuildAction action) {
         this.action = action;
-//		this.file = action.statement;
-//		this.Percent = action.branch;
+        PercentTotal = new Integer(0);
         this.mListNameFile = action.getResultList();
         
         for(int i = 0; i < mListNameFile.size(); ++i)
         {
-        	System.out.println(mListNameFile.get(i).getFile() + " " + mListNameFile.get(i).getPercent());
+        	//System.out.println(mListNameFile.get(i).getFile() + " " + mListNameFile.get(i).getPercent());
+        	String strTemp = mListNameFile.get(i).getPercent();
+        	String [] split = strTemp.split("%");
+        	System.out.println("On demande le Get PErcent 23 " + split[0]);
+        	PercentTotal += Integer.parseInt(split[0]);
         }
+        PercentTotal /= mListNameFile.size();
         setName("AcppLogger");
     }
 	
@@ -47,6 +52,10 @@ public final class AcppLoggerReport extends AcppLoggerObject<AcppLoggerReport> {
 
     public String getDisplayName() {
         return name;
+    }
+    
+    public String getPercentTotal(){
+    	return Integer.toString(PercentTotal) + "%";
     }
     
     @Override
