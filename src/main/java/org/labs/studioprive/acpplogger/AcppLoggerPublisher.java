@@ -14,6 +14,8 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Publisher;
 import hudson.tasks.Recorder;
+import hudson.tasks.junit.TestResult;
+import hudson.tasks.junit.TestResultAction;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,7 +63,7 @@ public class AcppLoggerPublisher extends Recorder implements DryRun,
 	 * 
 	 * @see hudson.tasks.BuildStep#getRequiredMonitorService()
 	 */
-	@Override
+	
 	public BuildStepMonitor getRequiredMonitorService() {
 		return BuildStepMonitor.NONE;
 	}
@@ -73,7 +75,7 @@ public class AcppLoggerPublisher extends Recorder implements DryRun,
 	 * org.jenkinsci.lib.dryrun.DryRun#performDryRun(hudson.model.AbstractBuild,
 	 * hudson.Launcher, hudson.model.BuildListener)
 	 */
-	@Override
+	
 	public boolean performDryRun(AbstractBuild<?, ?> build, Launcher launcher,
 			BuildListener listener) throws InterruptedException, IOException {
 		try {

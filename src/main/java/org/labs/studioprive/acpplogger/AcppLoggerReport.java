@@ -27,6 +27,7 @@ public final class AcppLoggerReport extends AcppLoggerObject<AcppLoggerReport> {
 		return mListNameFile;
 	}
 	
+	
 	public AcppLoggerReport(AcppLoggerBuildAction action) {
         this.action = action;
         PercentTotal = new Integer(0);
