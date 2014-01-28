@@ -1,0 +1,10 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:my="/org/labs/studioprive/acpplogger/tags">
+  <l:layout xmlns:myplugin="/org/labs/studioprive/acpplogger/tags" norefresh="true" css="/plugin/acpplogger/css/style.css">
+    <l:main-panel>
+      <h2>${it.FileName}</h2>
+      <p>
+      ${it.SourceCode}
+      </p>
+    </l:main-panel>
+  </l:layout>
+</j:jelly>

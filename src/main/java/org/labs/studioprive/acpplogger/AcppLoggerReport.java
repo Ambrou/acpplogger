@@ -4,6 +4,8 @@ import hudson.model.AbstractBuild;
 import hudson.util.IOException2;
 
 import org.apache.commons.digester.Digester;
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -35,7 +37,7 @@ public final class AcppLoggerReport extends AcppLoggerObject<AcppLoggerReport> {
         	//System.out.println(mListNameFile.get(i).getFile() + " " + mListNameFile.get(i).getPercent());
         	String strTemp = mListNameFile.get(i).getPercent();
         	String [] split = strTemp.split("%");
-        	System.out.println("On demande le Get PErcent 23 " + split[0]);
+        	System.out.println("On demande le Get Percent " + split[0]);
         	PercentTotal += Integer.parseInt(split[0]);
         }
         PercentTotal /= mListNameFile.size();
@@ -70,6 +72,35 @@ public final class AcppLoggerReport extends AcppLoggerObject<AcppLoggerReport> {
     @Override
     public AbstractBuild<?,?> getBuild() {
         return action.owner;
+    }
+    
+    
+    public Object getDynamic(final String link, final StaplerRequest request, final StaplerResponse response) throws IOException {
+
+//        if (link.startsWith("source.")) {
+//
+//            if (!owner.getProject().getACL().hasPermission(Item.WORKSPACE)) {
+//                response.sendRedirect2("nosourcepermission");
+//                return null;
+//            }
+//
+//            Map<Integer, CppcheckWorkspaceFile> agregateMap = cppcheckSourceContainer.getInternalMap();
+//            if (agregateMap != null) {
+//                CppcheckWorkspaceFile vCppcheckWorkspaceFile = agregateMap.get(Integer.parseInt(StringUtils.substringAfter(link, "source.")));
+//                if (vCppcheckWorkspaceFile == null) {
+//                    throw new IllegalArgumentException("Error for retrieving the source file with link:" + link);
+//                }
+//                return new 	(owner, vCppcheckWorkspaceFile);
+//            }
+//        }
+    	System.out.println(" AcppLoggerReport " + link);
+    	if(link.endsWith(".html")){
+    		//Map<Integer, CppcheckWorkspaceFile> agregateMap = cppcheckSourceContainer.getInternalMap();
+    		//if (agregateMap != null) {
+    		//}
+    		return new 	AcppLoggerSource(getBuild(), link);
+    	}
+        return null;
     }
 
 }
