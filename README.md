@@ -26,3 +26,4 @@ Ensuite aller dans votre navigateur à l'adresse suivante http://localhost:8092/
 
 #### Installation externe à Eclipse :
   * Apache Maven version 3.1.1 à ajouter ensuite dans Windows/Preferences/Maven/installations
+  
