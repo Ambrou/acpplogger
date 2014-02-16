@@ -7,9 +7,9 @@ import hudson.model.HealthReportingAction;
 import hudson.model.Result;
 import hudson.model.AbstractBuild;
 
+import java.util.List;
 import java.util.logging.Logger;
 
-import org.jvnet.localizer.Localizable;
 import org.kohsuke.stapler.StaplerProxy;
 
 
@@ -19,14 +19,16 @@ public final class AcppLoggerBuildAction extends AcppLoggerObject<AcppLoggerBuil
 
 	public final AbstractBuild<?,?> owner;
 	
-	private transient WeakReference<AccpLoggerReport> report;
+	private transient WeakReference<AcppLoggerReport> report;
+	private List<AcppLoggerContainer> mListNameFile;
 	
-	public AcppLoggerBuildAction(AbstractBuild<?,?> owner){
+	public AcppLoggerBuildAction(AbstractBuild<?,?> owner, List<AcppLoggerContainer>listNameFile){
 		this.owner = owner;
+		this.mListNameFile = listNameFile;
 	}
 	@Override
 	public String getDisplayName() {
-		return "AccpLogger Report";
+		return "AcppLogger Report";
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public final class AcppLoggerBuildAction extends AcppLoggerObject<AcppLoggerBuil
 
 	@Override
 	public String getUrlName() {
-		return "AccpLogger";
+		return "AcppLogger";
 	}
 
 	@Override
@@ -47,6 +49,10 @@ public final class AcppLoggerBuildAction extends AcppLoggerObject<AcppLoggerBuil
 	public Object getTarget() {
         return getResult();
     }
+	
+	public List<AcppLoggerContainer> getResultList(){
+		return mListNameFile;
+	}
 
     @Override
 	 public AbstractBuild<?,?> getBuild() {
@@ -56,17 +62,17 @@ public final class AcppLoggerBuildAction extends AcppLoggerObject<AcppLoggerBuil
 	 /**
      * Obtains the detailed {@link CoverageReport} instance.
      */
-    public synchronized AccpLoggerReport getResult() {
+    public synchronized AcppLoggerReport getResult() {
 
         if(report!=null) {
-            final AccpLoggerReport r = report.get();
+            final AcppLoggerReport r = report.get();
             if(r!=null)     return r;
         }
 
 		// Generate the report
-        AccpLoggerReport r = new AccpLoggerReport(this);
+        AcppLoggerReport r = new AcppLoggerReport(this);
 
-		report = new WeakReference<AccpLoggerReport>(r);
+		report = new WeakReference<AcppLoggerReport>(r);
 		return r;
     }
 	@Override
