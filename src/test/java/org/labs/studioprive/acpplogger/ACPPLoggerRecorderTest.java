@@ -57,4 +57,35 @@ public class ACPPLoggerRecorderTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testPerformWithExclusion() {
+		
+		try {
+			ACPPLoggerRecorder acppLoggerRecorder = new ACPPLoggerRecorder("", "xutility;xmemory;xlocinfo;xlocale");
+			acppLoggerRecorder.perform(System.getProperty("user.dir") + "\\src\\test\\resources\\ocR.coverage");
+			Assert.assertEquals(197, acppLoggerRecorder.getCoverageDataFiles().size());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			fail(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testPerformGetFileLines() {
+		
+		try {
+			ACPPLoggerRecorder acppLoggerRecorder = new ACPPLoggerRecorder("", "xutility;xmemory;xlocinfo;xlocale");
+			acppLoggerRecorder.perform(System.getProperty("user.dir") + "\\src\\test\\resources\\ocR_Short.coverage");
+			Assert.assertEquals(21, acppLoggerRecorder.getCoverageDataFiles().get(0).getLinesFile().size());
+			Assert.assertEquals("   . ->         deleteArgument();", acppLoggerRecorder.getCoverageDataFiles().get(0).getLinesFile().get(8));
+			Assert.assertEquals(55, acppLoggerRecorder.getCoverageDataFiles().get(1).getLinesFile().size());
+			Assert.assertEquals("        //-------------------------------------------------------------------------------------------", acppLoggerRecorder.getCoverageDataFiles().get(1).getLinesFile().get(8));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			fail(e.getMessage());
+			e.printStackTrace();
+		}
+	}
 }
