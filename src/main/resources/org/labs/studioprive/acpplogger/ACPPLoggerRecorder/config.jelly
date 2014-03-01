@@ -4,14 +4,14 @@
     When submitted, it will be passed to the corresponding constructor parameter.
   -->
   <f:entry title="FileToParse" field="fileNameToParse" description="Choisir le fichier à analyser">
-    <f:textbox default="file.coverage"/>
+    <f:textbox default="file.coverage" value="${instance.FileToParse}"/>
   </f:entry>
   <f:section title="Options avancés du projet">
     <f:advanced>
       <f:block>
         <f:optionalBlock name="dynamic" title="Définir les fichiers à ne pas analyser">
 	      <f:entry title="Selection des fichiers" field="unSelectedFiles">
-	        <f:textbox name="unSelectedFiles" default=""/>
+	        <f:textbox name="unSelectedFiles" default=" " value="${instance.getFilesToExcludeString}"	/>
 	      </f:entry>
 	    </f:optionalBlock>
       </f:block>

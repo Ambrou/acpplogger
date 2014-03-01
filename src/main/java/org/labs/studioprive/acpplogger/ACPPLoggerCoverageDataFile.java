@@ -26,6 +26,13 @@ public class ACPPLoggerCoverageDataFile {
 	public Integer getCoveragePercent() {
 		return coveragePercent;
 	}
+	
+	/**
+	 * @return the percent
+	 */
+	public String getPercent() {
+		return getCoveragePercent().toString() + "%";
+	}
 
 	/**
 	 * @return the linesFile

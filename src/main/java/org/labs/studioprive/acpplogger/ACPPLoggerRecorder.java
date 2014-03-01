@@ -11,8 +11,11 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 import hudson.Extension;
 import hudson.Launcher;
+import hudson.model.Action;
 import hudson.model.BuildListener;
+import hudson.model.Result;
 import hudson.model.AbstractBuild;
+import hudson.model.AbstractProject;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Recorder;
 
@@ -20,18 +23,23 @@ import hudson.tasks.Recorder;
 public class ACPPLoggerRecorder extends Recorder{
 
 	private final String	fileNameToParse;
-	private final String[]	unselectedFilesList;
+	private final List<String>	filesToExclude;
 	private List<ACPPLoggerCoverageDataFile> coverageDataFiles;
 	
 	@Extension
 	public static final ACPPLoggerDescriptor DESCRIPTOR = new ACPPLoggerDescriptor();
 	
 	@DataBoundConstructor
-	public ACPPLoggerRecorder(String fileNameToParse, String unselectedFilesList){
+	public ACPPLoggerRecorder(String fileNameToParse, String filesToExclude){
 		this.fileNameToParse = fileNameToParse;
-		this.unselectedFilesList = unselectedFilesList.split(";");
+		this.filesToExclude = new ArrayList<String>();
+		String [] strTemp = filesToExclude.split(";");
+		for(int iLoop = 0; iLoop < strTemp.length; ++iLoop) {
+			this.filesToExclude.add(strTemp[iLoop]);
+		}
 		this.setCoverageDataFiles(new ArrayList<ACPPLoggerCoverageDataFile>());
 	}
+
 	
 	public BuildStepMonitor getRequiredMonitorService() {
 		return BuildStepMonitor.BUILD;
@@ -39,12 +47,27 @@ public class ACPPLoggerRecorder extends Recorder{
 	
 	@Override
 	public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-		perform(build.getWorkspace() + "\\"  + getFileToParse());
+		splitMasterFileCoverage(build.getWorkspace() + "\\"  + getFileToParse());
+		
+		ACPPLoggerResult acppLoggerResult = new ACPPLoggerResult(build, getCoverageDataFiles());
+		
+		final ACPPLoggerAction action = new ACPPLoggerAction(build, acppLoggerResult);
+		build.getActions().add(action);
+		/*final ACPPLoggerResult result =	action.getResult();
+		
+		if (result == null) {
+            //logger.println("AcppLogger: Could not parse coverage results. Setting Build to failure.");
+            build.setResult(Result.FAILURE);
+        } else if (result.isFailed()) {
+            //logger.println("AcppLogger: code coverage enforcement failed. Setting Build to unstable.");
+            build.setResult(Result.UNSTABLE);
+        }*/
+		// Always exit on success (returned code and status)
+		build.setResult(Result.SUCCESS);
 		return true;
 	}
 	
-	public void perform(String fileToParse) throws FileNotFoundException{
-		
+	public void splitMasterFileCoverage(String fileToParse) throws FileNotFoundException{
 		
 		try{
 			BufferedReader buff = new BufferedReader(new FileReader(fileToParse));
@@ -61,15 +84,15 @@ public class ACPPLoggerRecorder extends Recorder{
 						
 						if(firstFile == false){
 							if(isFileIncluded(name) == true) {
-								coverageDataFiles.add(new ACPPLoggerCoverageDataFile(
+								getCoverageDataFiles().add(new ACPPLoggerCoverageDataFile(
 													name, 
 													percent, 
 													Lines));
 							}
 						}
 						firstFile = false;
-						name = getName(line);
-						percent = getPercent(line);
+						name = extractName(line);
+						percent = extractPercent(line);
 						Lines = new ArrayList<String>();
 					}
 					else
@@ -78,11 +101,10 @@ public class ACPPLoggerRecorder extends Recorder{
 					}
 				}
 				if(isFileIncluded(name) == true) {
-					coverageDataFiles.add(new ACPPLoggerCoverageDataFile(
+					getCoverageDataFiles().add(new ACPPLoggerCoverageDataFile(
 										name, 
 										percent, 
 										Lines));
-					//System.out.println(name);
 				}
 			} finally {
 				buff.close();
@@ -92,25 +114,25 @@ public class ACPPLoggerRecorder extends Recorder{
 		}
 	}
 
-	private Integer getPercent(String line) {
+	private Integer extractPercent(String line) {
 		String[] element = line.split(" ");
 		return Integer.parseInt(element[2].replaceAll("%",  ""));
 	}
 
-	private String getName(String line) {
+	private String extractName(String line) {
 		String[] element = line.split(" ");
 		return element[1];
 	}
 
 	private boolean isFileIncluded(String strName) {
-		int iLoop = 0;
-		boolean fileIncluded = true;
-		for(iLoop = 0; (iLoop < getUnselectedFilesList().length) && (fileIncluded == true); ++iLoop){
-			if(getUnselectedFilesList()[iLoop].compareTo(strName) == 0){
-				fileIncluded = false;
+		
+		for(int iLoop = 0; iLoop < getFilesToExclude().size(); ++iLoop){
+			System.out.println(getFilesToExclude().get(iLoop));
+			if(getFilesToExclude().get(iLoop).compareTo(strName) == 0){
+				return false;
 			}
 		}
-		return fileIncluded;
+		return true;
 	}
 
 	/**
@@ -121,12 +143,26 @@ public class ACPPLoggerRecorder extends Recorder{
 	}
 
 
-
 	/**
 	 * @return the unselectedFilesList
 	 */
-	public String[] getUnselectedFilesList() {
-		return unselectedFilesList;
+	public String getFilesToExcludeString() {
+		String str = new String("");
+		for(int iLoop = 0; iLoop < getFilesToExclude().size(); ++iLoop){
+			if(iLoop != 0){
+				str += ";";
+			}
+			str += getFilesToExclude().get(iLoop);
+			
+		}
+		return str;
+	}
+
+	/**
+	 * @return the getUnSelectedFilesList
+	 */
+	public List<String> getFilesToExclude() {
+		return filesToExclude;
 	}
 
 	/**
