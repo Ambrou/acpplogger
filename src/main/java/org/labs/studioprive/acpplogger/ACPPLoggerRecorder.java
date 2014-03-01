@@ -178,5 +178,10 @@ public class ACPPLoggerRecorder extends Recorder{
 	public void setCoverageDataFiles(List<ACPPLoggerCoverageDataFile> coverageDataFiles) {
 		this.coverageDataFiles = coverageDataFiles;
 	}
+	
+	@Override
+    public Action getProjectAction(AbstractProject<?, ?> project) {
+        return new ACPPLoggerProjectAction(project);
+    }
 
 }
