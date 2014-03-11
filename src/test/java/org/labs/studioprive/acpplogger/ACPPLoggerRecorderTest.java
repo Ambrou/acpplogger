@@ -78,4 +78,19 @@ public class ACPPLoggerRecorderTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testgetFilesToExcludeStringWithData() {
+		
+		ACPPLoggerRecorder acppLoggerRecorder = new ACPPLoggerRecorder("", "xutility;xmemory;xlocinfo;xlocale");
+		Assert.assertEquals("xutility;xmemory;xlocinfo;xlocale", acppLoggerRecorder.getFilesToExcludeString());
+	}
+
+	
+	@Test
+	public void testgetFilesToExcludeStringWithOutData() {
+		
+		ACPPLoggerRecorder acppLoggerRecorder = new ACPPLoggerRecorder("", "");
+		Assert.assertEquals("__empty__", acppLoggerRecorder.getFilesToExcludeString());
+	}
 }

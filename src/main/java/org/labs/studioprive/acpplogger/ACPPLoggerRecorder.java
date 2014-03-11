@@ -9,6 +9,9 @@ import java.util.List;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+
 import hudson.Extension;
 import hudson.Launcher;
 import hudson.model.Action;
@@ -25,6 +28,7 @@ public class ACPPLoggerRecorder extends Recorder{
 	private final String	fileNameToParse;
 	private final List<String>	filesToExclude;
 	private List<ACPPLoggerCoverageDataFile> coverageDataFiles;
+	private ACPPLoggerLog acppLoggerLog;
 	
 	@Extension
 	public static final ACPPLoggerDescriptor DESCRIPTOR = new ACPPLoggerDescriptor();
@@ -47,7 +51,12 @@ public class ACPPLoggerRecorder extends Recorder{
 	
 	@Override
 	public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
+		acppLoggerLog = getAcppLoggerLogObject(listener);
+		
+		
+		acppLoggerLog.infoConsoleLogger("start parsing file" + getFileToParse());
 		splitMasterFileCoverage(build.getWorkspace() + "\\"  + getFileToParse());
+		acppLoggerLog.infoConsoleLogger("parsing file" + getFileToParse() + " done" );
 		
 		ACPPLoggerResult acppLoggerResult = new ACPPLoggerResult(build, getCoverageDataFiles());
 		
@@ -70,6 +79,7 @@ public class ACPPLoggerRecorder extends Recorder{
 	public void splitMasterFileCoverage(String fileToParse) throws FileNotFoundException{
 		
 		try{
+			acppLoggerLog.infoConsoleLogger("open file " + fileToParse);
 			BufferedReader buff = new BufferedReader(new FileReader(fileToParse));
 
 			try {
@@ -84,6 +94,7 @@ public class ACPPLoggerRecorder extends Recorder{
 						
 						if(firstFile == false){
 							if(isFileIncluded(name) == true) {
+								acppLoggerLog.infoConsoleLogger("add file " + name);
 								getCoverageDataFiles().add(new ACPPLoggerCoverageDataFile(
 													name, 
 													percent, 
@@ -107,10 +118,12 @@ public class ACPPLoggerRecorder extends Recorder{
 										Lines));
 				}
 			} finally {
+				acppLoggerLog.infoConsoleLogger("close file " + fileToParse);
 				buff.close();
 			}
 		} catch (IOException ioe) {
 			System.out.println("Erreur --" + ioe.toString());
+			acppLoggerLog.errorConsoleLogger("Erreur --" + ioe.toString());
 		}
 	}
 
@@ -155,6 +168,10 @@ public class ACPPLoggerRecorder extends Recorder{
 			str += getFilesToExclude().get(iLoop);
 			
 		}
+		if(str.length() == 0)
+		{
+			str = "__empty__";
+		}
 		return str;
 	}
 
@@ -182,6 +199,15 @@ public class ACPPLoggerRecorder extends Recorder{
 	@Override
     public Action getProjectAction(AbstractProject<?, ?> project) {
         return new ACPPLoggerProjectAction(project);
+    }
+	
+	private ACPPLoggerLog getAcppLoggerLogObject(final BuildListener listener) {
+        return Guice.createInjector(new AbstractModule() {
+            @Override	
+            protected void configure() {
+                bind(BuildListener.class).toInstance(listener);
+            }
+        }).getInstance(ACPPLoggerLog.class);
     }
 
 }

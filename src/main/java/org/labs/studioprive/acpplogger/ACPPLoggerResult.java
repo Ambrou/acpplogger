@@ -69,6 +69,11 @@ public class ACPPLoggerResult implements Serializable {
 	  		//return new 	AcppLoggerSource(getBuild(), link);
 	  	}*/
 	      return null;
-  }
+	}
+	
+	@SuppressWarnings("unused")
+    public String getSummary() {
+        return "<H1>Ambroise</H1>";
+    }
 
 }
