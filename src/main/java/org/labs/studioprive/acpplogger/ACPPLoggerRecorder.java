@@ -28,7 +28,7 @@ public class ACPPLoggerRecorder extends Recorder{
 	private final String	fileNameToParse;
 	private final List<String>	filesToExclude;
 	private List<ACPPLoggerCoverageDataFile> coverageDataFiles;
-	private ACPPLoggerLog acppLoggerLog;
+	//private ACPPLoggerLog acppLoggerLog;
 	
 	@Extension
 	public static final ACPPLoggerDescriptor DESCRIPTOR = new ACPPLoggerDescriptor();
@@ -39,7 +39,7 @@ public class ACPPLoggerRecorder extends Recorder{
 		this.filesToExclude = new ArrayList<String>();
 		String [] strTemp = filesToExclude.split(";");
 		for(int iLoop = 0; iLoop < strTemp.length; ++iLoop) {
-			this.filesToExclude.add(strTemp[iLoop]);
+			this.filesToExclude.add(strTemp[iLoop].trim());
 		}
 		this.setCoverageDataFiles(new ArrayList<ACPPLoggerCoverageDataFile>());
 	}
@@ -51,11 +51,13 @@ public class ACPPLoggerRecorder extends Recorder{
 	
 	@Override
 	public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-		acppLoggerLog = getAcppLoggerLogObject(listener);
+		final ACPPLoggerLog acppLoggerLog = getAcppLoggerLogObject(listener);
+		
+		acppLoggerLog.infoConsoleLogger("start processing with exlude files" + getFilesToExclude());
 		
 		
-		acppLoggerLog.infoConsoleLogger("start parsing file" + getFileToParse());
-		splitMasterFileCoverage(build.getWorkspace() + "\\"  + getFileToParse());
+		acppLoggerLog.infoConsoleLogger("start parsing file " + getFileToParse());
+		splitMasterFileCoverage(build.getWorkspace() + "\\"  + getFileToParse(), acppLoggerLog);
 		acppLoggerLog.infoConsoleLogger("parsing file" + getFileToParse() + " done" );
 		
 		ACPPLoggerResult acppLoggerResult = new ACPPLoggerResult(build, getCoverageDataFiles());
@@ -76,10 +78,10 @@ public class ACPPLoggerRecorder extends Recorder{
 		return true;
 	}
 	
-	public void splitMasterFileCoverage(String fileToParse) throws FileNotFoundException{
+	public void splitMasterFileCoverage(String fileToParse, ACPPLoggerLog acppLoggerLog) throws FileNotFoundException{
 		
 		try{
-			acppLoggerLog.infoConsoleLogger("open file " + fileToParse);
+			if(acppLoggerLog != null) acppLoggerLog.infoConsoleLogger("open file " + fileToParse);
 			BufferedReader buff = new BufferedReader(new FileReader(fileToParse));
 
 			try {
@@ -94,7 +96,7 @@ public class ACPPLoggerRecorder extends Recorder{
 						
 						if(firstFile == false){
 							if(isFileIncluded(name) == true) {
-								acppLoggerLog.infoConsoleLogger("add file " + name);
+								if(acppLoggerLog != null) acppLoggerLog.infoConsoleLogger("add file " + name);
 								getCoverageDataFiles().add(new ACPPLoggerCoverageDataFile(
 													name, 
 													percent, 
@@ -118,12 +120,12 @@ public class ACPPLoggerRecorder extends Recorder{
 										Lines));
 				}
 			} finally {
-				acppLoggerLog.infoConsoleLogger("close file " + fileToParse);
+				if(acppLoggerLog != null) acppLoggerLog.infoConsoleLogger("close file " + fileToParse);
 				buff.close();
 			}
 		} catch (IOException ioe) {
 			System.out.println("Erreur --" + ioe.toString());
-			acppLoggerLog.errorConsoleLogger("Erreur --" + ioe.toString());
+			if(acppLoggerLog != null) acppLoggerLog.errorConsoleLogger("Erreur --" + ioe.toString());
 		}
 	}
 
@@ -140,8 +142,8 @@ public class ACPPLoggerRecorder extends Recorder{
 	private boolean isFileIncluded(String strName) {
 		
 		for(int iLoop = 0; iLoop < getFilesToExclude().size(); ++iLoop){
-			System.out.println(getFilesToExclude().get(iLoop));
-			if(getFilesToExclude().get(iLoop).compareTo(strName) == 0){
+			System.out.println(getFilesToExclude().get(iLoop).trim() + " " + strName);
+			if(getFilesToExclude().get(iLoop).trim().compareTo(strName) == 0){
 				return false;
 			}
 		}

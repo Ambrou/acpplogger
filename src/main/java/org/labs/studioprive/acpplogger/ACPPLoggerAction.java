@@ -1,6 +1,6 @@
 package org.labs.studioprive.acpplogger;
 
-import java.util.List;
+import java.io.Serializable;
 
 import org.kohsuke.stapler.StaplerProxy;
 

@@ -38,8 +38,8 @@ public class ACPPLoggerRecorderTest {
 	public void testPerformWithOutExclusion() {
 		
 		try {
-			ACPPLoggerRecorder acppLoggerRecorder = new ACPPLoggerRecorder("", " ");
-			acppLoggerRecorder.splitMasterFileCoverage(System.getProperty("user.dir") + "\\src\\test\\resources\\ocR.coverage");
+			ACPPLoggerRecorder acppLoggerRecorder = new ACPPLoggerRecorder("ocR.coverage", " ");
+			acppLoggerRecorder.splitMasterFileCoverage(System.getProperty("user.dir") + "\\src\\test\\resources\\ocR.coverage", null);
 			Assert.assertEquals(201, acppLoggerRecorder.getCoverageDataFiles().size());
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -53,7 +53,7 @@ public class ACPPLoggerRecorderTest {
 		
 		try {
 			ACPPLoggerRecorder acppLoggerRecorder = new ACPPLoggerRecorder("", "xutility;xmemory;xlocinfo;xlocale");
-			acppLoggerRecorder.splitMasterFileCoverage(System.getProperty("user.dir") + "\\src\\test\\resources\\ocR.coverage");
+			acppLoggerRecorder.splitMasterFileCoverage(System.getProperty("user.dir") + "\\src\\test\\resources\\ocR.coverage", null);
 			Assert.assertEquals(197, acppLoggerRecorder.getCoverageDataFiles().size());
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
