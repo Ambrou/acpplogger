@@ -11,7 +11,7 @@
       <f:block>
         <f:optionalBlock name="dynamic" title="Définir les fichiers à ne pas analyser">
 	      <f:entry title="Selection des fichiers" field="unSelectedFiles">
-	        <f:textbox name="unSelectedFiles" default=" " value="${instance.getFilesToExcludeString}"	/>
+	        <f:textbox name="unSelectedFiles" default=" " value="${instance.FilesToExcludeString}"	/>
 	      </f:entry>
 	    </f:optionalBlock>
       </f:block>
