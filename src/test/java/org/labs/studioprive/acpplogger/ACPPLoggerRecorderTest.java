@@ -67,7 +67,7 @@ public class ACPPLoggerRecorderTest {
 		
 		try {
 			ACPPLoggerRecorder acppLoggerRecorder = new ACPPLoggerRecorder("", "xutility;xmemory;xlocinfo;xlocale");
-			acppLoggerRecorder.splitMasterFileCoverage(System.getProperty("user.dir") + "\\src\\test\\resources\\ocR_Short.coverage");
+			acppLoggerRecorder.splitMasterFileCoverage(System.getProperty("user.dir") + "\\src\\test\\resources\\ocR_Short.coverage", null);
 			Assert.assertEquals(21, acppLoggerRecorder.getCoverageDataFiles().get(0).getLinesFile().size());
 			Assert.assertEquals("   . ->         deleteArgument();", acppLoggerRecorder.getCoverageDataFiles().get(0).getLinesFile().get(8));
 			Assert.assertEquals(55, acppLoggerRecorder.getCoverageDataFiles().get(1).getLinesFile().size());
