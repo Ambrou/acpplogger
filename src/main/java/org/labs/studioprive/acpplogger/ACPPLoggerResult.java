@@ -19,7 +19,8 @@ public class ACPPLoggerResult implements Serializable {
      * The build owner
      */
     private AbstractBuild<?, ?> build;
-    private final List<ACPPLoggerCoverageDataFile> coverageDataFiles;
+	private List<ACPPLoggerCoverageDataFile> coverageDataFiles;
+    
     
     public ACPPLoggerResult(AbstractBuild<?, ?> build, List<ACPPLoggerCoverageDataFile> coverageDataFiles) {///*CppcheckReport report, CppcheckSourceContainer cppcheckSourceContainer, */AbstractBuild<?, ?> owner) 
     	this.coverageDataFiles = coverageDataFiles;

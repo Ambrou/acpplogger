@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>acpplogger</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<packaging>hpi</packaging>
 	<name>ACPPLogger</name>
 	<description>Ambroise CPP Logger plugin project for Jenkins</description>

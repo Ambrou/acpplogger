@@ -1,16 +1,22 @@
 package org.labs.studioprive.acpplogger;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ACPPLoggerCoverageDataFile {
+public class ACPPLoggerCoverageDataFile  implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final String fileName;
 	private final Integer coveragePercent;
 	private final List<String> linesFile;
 	
-	public ACPPLoggerCoverageDataFile(String fileName, Integer coveragePercent, List<String>linesFile){
+	public ACPPLoggerCoverageDataFile(String fileName, Integer coveragePercent){
 		this.fileName = fileName;
 		this.coveragePercent = coveragePercent;
-		this.linesFile = linesFile;
+		this.linesFile = new ArrayList<String>();
 	}
 
 	/**
@@ -39,6 +45,10 @@ public class ACPPLoggerCoverageDataFile {
 	 */
 	public List<String> getLinesFile() {
 		return linesFile;
+	}
+	
+	public void addLine(String line) {
+		linesFile.add(line);
 	}
 
 }
