@@ -1,0 +1,81 @@
+UNTESTED BLOCKS - by file
+===============
+
+FILE ArgumentTCLMaker.cpp 69% covered: 4 untested / 9 tested
+
+   
+        // ------------------------------------------------------------------------------------------
+        //!        \fn                LogTetrisMock::~ArgumentTCLMaker()
+        //!        \brief        Object's destructor
+        // ------------------------------------------------------------------------------------------
+        ArgumentTCLMaker::~ArgumentTCLMaker()
+        {
+   . ->         deleteArgument();
+        }
+        
+        // ------------------------------------------------------------------------------------------
+        //!        \fn                unsigned int ArgumentTCLMaker::getArgumentNumber() const
+        //!        \brief        get Argument Number
+        //!        \return        Argument Number
+        // ------------------------------------------------------------------------------------------
+        unsigned int ArgumentTCLMaker::getArgumentNumber() const
+        {
+   . ->         return m_iArgumentNumber;
+        }
+     
+FILE CHeaderSaver_Mock.cpp 83% covered: 1 untested / 5 tested
+
+        //-------------------------------------------------------------------------------------------
+        // Projet : XsUi_Mock.lib
+        //-------------------------------------------------------------------------------------------
+        
+        //-------------------------------------------------------------------------------------------
+        //!        \file                        CHeaderSaver_Mock.cpp
+        //!        \brief                        Mock OC exiter definition
+        //-------------------------------------------------------------------------------------------
+        
+        //--------------------------------------------------------------------------------------------
+        //        Zone des Inclusions
+        //--------------------------------------------------------------------------------------------
+        // Include the precompiler header
+        #include "stdafx.h"
+        // Include the Logger
+        #include "CHeaderSaver_Mock.h"
+        
+        // ------------------------------------------------------------------------------------------
+        //!        \fn                CHeaderSaver_Mock::CHeaderSaver_Mock()
+        //!        \brief        Object's constructor
+        // ------------------------------------------------------------------------------------------
+        CHeaderSaver_Mock::CHeaderSaver_Mock()
+        {
+                
+   . -> }
+        
+        // ------------------------------------------------------------------------------------------
+        //!        \fn                LogTetrisMock::~CHeaderSaver_Mock()
+        //!        \brief        Object's destructor
+        // ------------------------------------------------------------------------------------------
+        CHeaderSaver_Mock::~CHeaderSaver_Mock()
+        {
+                
+   . -> }
+        
+        void CHeaderSaver_Mock::setHeader( OCHEADERTYPE * )
+        {
+        
+   . -> }
+        
+        void CHeaderSaver_Mock::setHandle( HANDLE * )
+        {
+        
+   . -> }
+        
+        void CHeaderSaver_Mock::setWritten( bool  )
+        {
+        
+   . -> }
+        
+        bool CHeaderSaver_Mock::saveHeader()
+        {
+   ! ->         return true;
+        }
