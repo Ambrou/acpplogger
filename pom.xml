@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
-		<version>1.544</version><!-- which version of Jenkins is this plugin built 
+		<version>1.554</version><!-- which version of Jenkins is this plugin built 
 			against? -->
 	</parent>
 
 	<artifactId>acpplogger</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<packaging>hpi</packaging>
 	<name>ACPPLogger</name>
 	<description>Ambroise CPP Logger plugin project for Jenkins</description>
