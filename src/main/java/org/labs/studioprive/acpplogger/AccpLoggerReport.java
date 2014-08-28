@@ -1,4 +1,4 @@
-	package org.labs.studioprive.acpplogger;
+package org.labs.studioprive.acpplogger;
 
 import hudson.model.AbstractBuild;
 
