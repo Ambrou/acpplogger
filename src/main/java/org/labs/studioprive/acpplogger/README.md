@@ -1,4 +1,0 @@
-ACPPLogger 
-==========
-
-Sources are here
