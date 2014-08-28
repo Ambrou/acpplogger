@@ -2,12 +2,12 @@
 
 import hudson.model.AbstractBuild;
 
-public final class AccpLoggerReport extends AcppLoggerObject<AccpLoggerReport> {
+public final class AcppLoggerReport extends AcppLoggerObject<AccpLoggerReport> {
 	private final AcppLoggerBuildAction action;
 	
 	private String name;
 	
-	public AccpLoggerReport(AcppLoggerBuildAction action) {
+	public AcppLoggerReport(AcppLoggerBuildAction action) {
         this.action = action;
 //		this.statement = action.statement;
 //		this.branch = action.branch;
@@ -29,8 +29,7 @@ public final class AccpLoggerReport extends AcppLoggerObject<AccpLoggerReport> {
         return name;
     }
     
-    @Override
-    public AccpLoggerReport getPreviousResult() {
+    public AcppLoggerReport getPreviousResult() {
     	AcppLoggerBuildAction prev = action.getPreviousResult();
         if(prev!=null)
             return prev.getResult();
@@ -38,7 +37,6 @@ public final class AccpLoggerReport extends AcppLoggerObject<AccpLoggerReport> {
             return null;
     }
 
-    @Override
     public AbstractBuild<?,?> getBuild() {
         return action.owner;
     }

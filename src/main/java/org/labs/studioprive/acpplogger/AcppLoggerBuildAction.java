@@ -69,11 +69,11 @@ public final class AcppLoggerBuildAction extends AcppLoggerObject<AcppLoggerBuil
             if(r!=null)     return r;
         }
 
-		// Generate the report
+	// Generate the report
         AcppLoggerReport r = new AcppLoggerReport(this);
 
-		report = new WeakReference<AcppLoggerReport>(r);
-		return r;
+	report = new WeakReference<AcppLoggerReport>(r);
+	return r;
     }
 	@Override
 	public AcppLoggerBuildAction getPreviousResult() {
