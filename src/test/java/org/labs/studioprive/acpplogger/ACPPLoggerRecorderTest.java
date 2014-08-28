@@ -17,8 +17,8 @@ public class ACPPLoggerRecorderTest {
 
 	@Test
 	public void testGetRequiredMonitorService() {
-		ACPPLoggerRecorder acppLoggerRecorder = new ACPPLoggerRecorder("", "");
-		Assert.assertEquals(BuildStepMonitor.BUILD, acppLoggerRecorder.getRequiredMonitorService());
+		AcppLoggerPublisher acppLoggerRecorder = new AcppLoggerPublisher();
+		Assert.assertEquals(BuildStepMonitor.NONE, acppLoggerRecorder.getRequiredMonitorService());
 	}
 /*
 	@Test

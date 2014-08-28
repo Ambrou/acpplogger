@@ -9,25 +9,25 @@ public class ACPPLoggerActionTest {
 
 	@Test
 	public void testGetIconFileName() {
-		ACPPLoggerAction acppLoggerAction = new ACPPLoggerAction(null, null);
+		AcppLoggerBuildAction acppLoggerAction = new AcppLoggerBuildAction(null, null);
 		Assert.assertEquals("graph.gif", acppLoggerAction.getIconFileName());
 	}
 
 	@Test
 	public void testGetDisplayName() {
-		ACPPLoggerAction acppLoggerAction = new ACPPLoggerAction(null, null);
-		Assert.assertEquals("ACPPLogger Result", acppLoggerAction.getDisplayName());
+		AcppLoggerBuildAction acppLoggerAction = new AcppLoggerBuildAction(null, null);
+		Assert.assertEquals("AcppLogger Report", acppLoggerAction.getDisplayName());
 	}
 
 	@Test
 	public void testGetUrlName() {
-		ACPPLoggerAction acppLoggerAction = new ACPPLoggerAction(null, null);
-		Assert.assertEquals("ACPPLoggerResult", acppLoggerAction.getUrlName());
+		AcppLoggerBuildAction acppLoggerAction = new AcppLoggerBuildAction(null, null);
+		Assert.assertEquals("AcppLogger", acppLoggerAction.getUrlName());
 	}
 
 	@Test
 	public void testGetBuildHealth() {
-		ACPPLoggerAction acppLoggerAction = new ACPPLoggerAction(null, null);
+		AcppLoggerBuildAction acppLoggerAction = new AcppLoggerBuildAction(null, null);
 		Assert.assertNotNull(acppLoggerAction.getBuildHealth());
 	}
 
