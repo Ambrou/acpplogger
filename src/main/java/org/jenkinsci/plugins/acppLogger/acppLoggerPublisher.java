@@ -32,18 +32,19 @@ import java.io.IOException;
  *
  * @author Kohsuke Kawaguchi
  */
-public class HelloWorldBuilder extends Builder {
+public class acppLoggerPublisher extends Builder {
 
     private final String name;
 
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
-    public HelloWorldBuilder(String name) {
+    public acppLoggerPublisher(String name) {
         this.name = name;
     }
 
     /**
      * We'll use this from the <tt>config.jelly</tt>.
+     * @return 
      */
     public String getName() {
         return name;
@@ -108,6 +109,8 @@ public class HelloWorldBuilder extends Builder {
          *      Note that returning {@link FormValidation#error(String)} does not
          *      prevent the form from being saved. It just means that a message
          *      will be displayed to the user. 
+         * @throws java.io.IOException 
+         * @throws javax.servlet.ServletException 
          */
         public FormValidation doCheckName(@QueryParameter String value)
                 throws IOException, ServletException {
@@ -118,6 +121,7 @@ public class HelloWorldBuilder extends Builder {
             return FormValidation.ok();
         }
 
+        @Override
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
             // Indicates that this builder can be used with all kinds of project types 
             return true;
@@ -125,7 +129,9 @@ public class HelloWorldBuilder extends Builder {
 
         /**
          * This human readable name is used in the configuration screen.
+         * @return 
          */
+        @Override
         public String getDisplayName() {
             return "Say hello world";
         }
@@ -146,6 +152,7 @@ public class HelloWorldBuilder extends Builder {
          *
          * The method name is bit awkward because global.jelly calls this method to determine
          * the initial state of the checkbox by the naming convention.
+         * @return 
          */
         public boolean getUseFrench() {
             return useFrench;
